@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulasi TKA Kabupaten Tanah Bumbu</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px; 
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 650px;
+            text-align: center;
+        }
+        .logo {
+            width: 80px; 
+            height: auto;
+            margin-bottom: 15px;
+        }
+        h1 {
+            color: #0056b3;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.5em; 
+        }
+        .input-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            width: 100%;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .hasil-wrapper {
+            margin-top: 25px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            text-align: left;
+            display: none; 
+        }
+        .summary-box {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            text-align:center; 
+            margin-bottom: 25px;
+            background-color: #e2eefc;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .summary-item strong {
+            font-size: 1.5em; 
+            color: #0056b3;
+        }
+        .summary-item span {
+            font-size:0.9em;
+            color: #333;
+        }
+        .footer-label {
+            margin-top: 40px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+            font-size: 0.8em;
+            color: #888;
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .footer-logo {
+            width: 20px;
+            height: auto;
+        }
+        .hasil-wrapper h4 {
+            color: #0056b3;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+        .tabel-distribusi {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95em;
+            margin-bottom: 20px;
+        }
+        .tabel-distribusi th, .tabel-distribusi td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        .tabel-distribusi th {
+            background-color: #495057;
+            color: white;
+        }
+        .tabel-distribusi td:first-child {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        .warning-message {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="image/logo_tanbu.png" alt="Logo Kabupaten" class="logo">
+        <h1>SIMULASI KEBUTUHAN KOMPUTER TKA 2025</h1>
+        <p>Masukkan data untuk mendapatkan referensi skenario pengaturan gelombang dan sesi</p>
+        
+        <div class="input-group">
+            <label for="jumlahSiswa">Jumlah Siswa Kelas 6 & 9</label>
+            <input type="number" id="jumlahSiswa" placeholder="Contoh: 500">
+        </div>
+        <div class="input-grid">
+            <div class="input-group">
+                <label for="jumlahKomputer">Total Komputer Tersedia</label>
+                <input type="number" id="jumlahKomputer" placeholder="Contoh: 100">
+            </div>
+            <div class="input-group">
+                <label for="jumlahRuangan">Jumlah Ruangan Digunakan</label>
+                <input type="number" id="jumlahRuangan" placeholder="Contoh: 2">
+            </div>
+        </div>
+        
+        <button onclick="hitungSimulasi()">Hitung Simulasi</button>
+
+        
+        <div id="hasilSimulasi" class="hasil-wrapper">
+            <!-- Hasil simulasi akan ditampilkan di sini -->
+        </div>
+        
+        <div class="footer-label">
+            <img src="image/beraksi2.png" alt="Logo Tim Teknis" class="footer-logo">
+            <span>Website ini hanya sebuah referensi dalam penyusunan gelombang dan sesi sesuai kondisi komputer yang ada disekolah, dan tidak bersifat wajib di ikuti, sekolah bisa menentukan formula pengaturan gelombang dan sesi sendiri sesuai kebutuhan di sekolah nya untuk kegiatan TKA. Tim Teknis Asesmen Berskala Nasional Kabupaten Tanah Bumbu 2025 @rafi</span>
+        </div>
+    </div>
+
+    <script>
+        function distribusikanKomputer(totalKomputer, jumlahRuangan) {
+            const distribusi = new Array(jumlahRuangan).fill(0);
+            let sisaKomputer = totalKomputer;
+            let i = 0;
+            while (sisaKomputer > 0) {
+                distribusi[i % jumlahRuangan]++;
+                sisaKomputer--;
+                i++;
+            }
+            return distribusi.sort((a, b) => b - a);
+        }
+
+        function hitungSimulasi() {
+            const jumlahSiswa = parseInt(document.getElementById('jumlahSiswa').value);
+            const jumlahKomputer = parseInt(document.getElementById('jumlahKomputer').value);
+            const jumlahRuangan = parseInt(document.getElementById('jumlahRuangan').value);
+            
+            const hasilDiv = document.getElementById('hasilSimulasi');
+
+            if (isNaN(jumlahSiswa) || isNaN(jumlahKomputer) || isNaN(jumlahRuangan) || jumlahSiswa <= 0 || jumlahKomputer <= 0 || jumlahRuangan <= 0) {
+                hasilDiv.innerHTML = '<p style="text-align:center; color: red;">Harap isi semua kolom dengan angka lebih dari 0.</p>';
+                hasilDiv.style.display = 'block';
+                return;
+            }
+
+            const maksGelombang = 4; 
+            let sesiYangDigunakan;
+            const kapasitasTotalDalam4Hari = jumlahKomputer * maksGelombang;
+
+            if (jumlahSiswa <= kapasitasTotalDalam4Hari * 1) {
+                sesiYangDigunakan = 1;
+            } else if (jumlahSiswa <= kapasitasTotalDalam4Hari * 2) {
+                sesiYangDigunakan = 2;
+            } else {
+                sesiYangDigunakan = 3; 
+            }
+
+            const totalGelombangDibutuhkan = Math.ceil(jumlahSiswa / (jumlahKomputer * sesiYangDigunakan));
+            const jumlahHariTampil = Math.min(totalGelombangDibutuhkan, maksGelombang);
+            const distribusiKomputer = distribusikanKomputer(jumlahKomputer, jumlahRuangan);
+
+            let outputHTML = `<h3>Ringkasan Hasil Analisis</h3>`;
+            outputHTML += `<div class="summary-box">`;
+            outputHTML += `<div class="summary-item"><span>Total Hari</span><br><strong>${jumlahHariTampil} Hari</strong></div>`;
+            outputHTML += `<div class="summary-item"><span>Total Komputer</span><br><strong>${jumlahKomputer} Unit</strong></div>`;
+            outputHTML += `<div class="summary-item"><span>Total Ruangan</span><br><strong>${jumlahRuangan} Ruangan</strong></div>`;
+            outputHTML += `</div>`;
+            
+            outputHTML += `<h3>Rincian Jadwal Pelaksanaan (${sesiYangDigunakan} Sesi per Hari)</h3>`;
+            let sisaSiswa = jumlahSiswa;
+            
+            for (let hari = 1; hari <= jumlahHariTampil; hari++) {
+                outputHTML += `<h4>Gelombang ${hari}</h4>`;
+                outputHTML += `<table class="tabel-distribusi">`;
+
+                let tableHeaderHTML = `<thead><tr><th>Ruangan</th>`;
+                for(let i = 1; i <= sesiYangDigunakan; i++) {
+                    tableHeaderHTML += `<th>Sesi ${i}</th>`;
+                }
+                tableHeaderHTML += `</tr></thead>`;
+                outputHTML += tableHeaderHTML;
+                
+                outputHTML += `<tbody>`;
+
+                for (let ruang = 0; ruang < jumlahRuangan; ruang++) {
+                    const kompDiRuangIni = distribusiKomputer[ruang];
+                    outputHTML += `<tr><td>Ruangan ${ruang + 1} (${kompDiRuangIni} Komp)</td>`;
+
+                    for (let sesi = 1; sesi <= sesiYangDigunakan; sesi++) {
+                        const siswaDiSesiIni = Math.min(kompDiRuangIni, sisaSiswa);
+                        outputHTML += `<td>${siswaDiSesiIni > 0 ? siswaDiSesiIni + ' siswa' : '-'}</td>`;
+                        sisaSiswa -= siswaDiSesiIni;
+                    }
+                    outputHTML += `</tr>`;
+                }
+                outputHTML += `</tbody></table>`;
+            }
+
+            if (totalGelombangDibutuhkan > maksGelombang) {
+                const kapasitasMaks = jumlahKomputer * sesiYangDigunakan * maksGelombang;
+                const siswaTidakTerjadwal = jumlahSiswa - kapasitasMaks;
+                outputHTML += `<div class="warning-message">PERINGATAN: Kebutuhan pelaksanaan melebihi 4 hari. Sebanyak ${siswaTidakTerjadwal} siswa tidak terjadwal dalam simulasi ini.</div>`;
+            }
+
+            hasilDiv.innerHTML = outputHTML;
+            hasilDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
+
